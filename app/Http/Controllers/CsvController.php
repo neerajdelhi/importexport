@@ -30,7 +30,7 @@ class CsvController extends Controller
 	
 	//import export bulk ledger
 	public static function bulk_ledger(){
-		$bulk_ledger = BulkLedger::OrderBy('Sr','asc')->paginate(3);
+		$bulk_ledger = BulkLedger::OrderBy('Sr','asc')->paginate(12);
 		return view('bulk_ledger',compact('bulk_ledger'));
 	}
 	

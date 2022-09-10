@@ -4,9 +4,14 @@ namespace App\Imports;
 
 use App\BulkLedger;
 use Maatwebsite\Excel\Concerns\ToModel;
+use Maatwebsite\Excel\Concerns\WithHeadingRow;
+use Maatwebsite\Excel\Concerns\WithBatchInserts;
+use Maatwebsite\Excel\Concerns\WithChunkReading;
+use Maatwebsite\Excel\Concerns\RemembersChunkOffset;
 
-class BulkLedgerImport implements ToModel
+class BulkLedgerImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading
 {
+	use RemembersChunkOffset;
     /**
     * @param array $row
     *
@@ -14,34 +19,52 @@ class BulkLedgerImport implements ToModel
     */
     public function model(array $row)
     {
+		
+		$chunkOffset = $this->getChunkOffset();
+		
         return new BulkLedger([
-            'Sr' => $row[0],
-			'Date' => $row[1],
-			'Academic Year' => $row[2],
-			'Session' => $row[3],
-			'Alloted Category' => $row[4],
-			'Voucher Type' => $row[5],
-			'Voucher No' => $row[6],
-			'Roll No' => $row[7],
-			'Admno/UniqueId' => $row[8],
-			'Status' => $row[9],
-			'Fee Category' => $row[10],
-			'Faculty' => $row[11],
-			'Program' => $row[12],
-			'Department' => $row[13],
-			'Batch' => $row[14],
-			'Receipt No' => $row[15],
-			'Fee Head' => $row[16],
-			'Due Amount' => $row[17],
-			'Paid Amount' => $row[18],
-			'Concession Amount' => $row[19],
-			'Scholarship Amount' =>  $row[20],
-			'Reverse Concession Amount' => $row[21],
-			'Write Off Amount' => $row[22],
-			'Adjusted Amount' => $row[23],
-			'Refund Amount' => $row[24],
-			'Fund TranCfer Amount' => $row[25],
-			'Remarks' => $row[26]
+            'Sr' => $row['sr'],
+			'Date' => $row['date'],
+			'Academic Year' => $row['academic_year'],
+			'Session' => $row['session'],
+			'Alloted Category' => $row['alloted_category'],
+			'Voucher Type' => $row['voucher_type'],
+			'Voucher No' => $row['voucher_no'],
+			'Roll No' => $row['roll_no'],
+			'Admno/UniqueId' => $row['admnouniqueid'],
+			'Status' => $row['status'],
+			'Fee Category' => $row['fee_category'],
+			'Faculty' => $row['faculty'],
+			'Program' => $row['program'],
+			'Department' => $row['department'],
+			'Batch' => $row['batch'],
+			'Receipt No' => $row['receipt_no'],
+			'Fee Head' => $row['fee_head'],
+			'Due Amount' => $row['due_amount'],
+			'Paid Amount' => $row['paid_amount'],
+			'Concession Amount' => $row['concession_amount'],
+			'Scholarship Amount' =>  $row['scholarship_amount'],
+			'Reverse Concession Amount' => $row['reverse_concession_amount'],
+			'Write Off Amount' => $row['write_off_amount'],
+			'Adjusted Amount' => $row['adjusted_amount'],
+			'Refund Amount' => $row['refund_amount'],
+			'Fund TranCfer Amount' => $row['fund_trancfer_amount'],
+			'Remarks' => $row['remarks']
         ]);
     }
+
+	public function headingRow(): int
+    {
+        return 6;
+    }
+
+	public function batchSize(): int
+	{
+		return 1000;
+	}
+
+	public function chunkSize(): int
+	{
+		return 1000;
+	}
 }
