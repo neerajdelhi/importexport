@@ -13,6 +13,9 @@ class BulkLedger extends Model
      * @var array
      */
     protected $fillable = [
-       
+       'Sr','Date','Academic Year','Session','Alloted Category','Voucher Type','Voucher No','Roll No',
+       'Admno/UniqueId','Status','Fee Category','Faculty','Program','Department','Batch','Receipt No',
+       'Fee Head','Due Amount','Paid Amount','Paid Amount','Scholarship Amount','Reverse Concession Amount',
+       'Write Off Amount','Adjusted Amount','Refund Amount','Fund TranCfer Amount','Remarks'
     ];
 }

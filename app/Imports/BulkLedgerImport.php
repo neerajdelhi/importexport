@@ -5,13 +5,16 @@ namespace App\Imports;
 use App\BulkLedger;
 use Maatwebsite\Excel\Concerns\ToModel;
 use Maatwebsite\Excel\Concerns\WithHeadingRow;
-use Maatwebsite\Excel\Concerns\WithBatchInserts;
+// use Maatwebsite\Excel\Concerns\WithBatchInserts;
 use Maatwebsite\Excel\Concerns\WithChunkReading;
-use Maatwebsite\Excel\Concerns\RemembersChunkOffset;
+// use Maatwebsite\Excel\Concerns\RemembersChunkOffset;
 
-class BulkLedgerImport implements ToModel, WithHeadingRow, WithBatchInserts, WithChunkReading
+class BulkLedgerImport implements ToModel, 
+WithHeadingRow,
+//  WithBatchInserts,
+ WithChunkReading
 {
-	use RemembersChunkOffset;
+	// use RemembersChunkOffset;
     /**
     * @param array $row
     *
@@ -20,7 +23,7 @@ class BulkLedgerImport implements ToModel, WithHeadingRow, WithBatchInserts, Wit
     public function model(array $row)
     {
 		
-		$chunkOffset = $this->getChunkOffset();
+		// $chunkOffset = $this->getChunkOffset();
 		
         return new BulkLedger([
             'Sr' => $row['sr'],
@@ -58,13 +61,13 @@ class BulkLedgerImport implements ToModel, WithHeadingRow, WithBatchInserts, Wit
         return 6;
     }
 
-	public function batchSize(): int
-	{
-		return 1000;
-	}
+	// public function batchSize(): int
+	// {
+	// 	return 1000;
+	// }
 
 	public function chunkSize(): int
 	{
-		return 1000;
+		return 500;
 	}
 }

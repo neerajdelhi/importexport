@@ -12,7 +12,7 @@ use App\Imports\CsvImport;
 use App\Exports\BulkLedgerExport;
 use App\Imports\BulkLedgerImport;
 
- 
+ini_set('max_execution_time', 5000); 
 class CsvController extends Controller
 {
     public static function index(){
@@ -38,6 +38,11 @@ class CsvController extends Controller
 		return Excel::download(new BulkLedgerExport, 'BulkLedgerExport.csv');
 	}
 	public function bulk_ledger_import(Request $request){
+
+		$request->validate([
+			'file' =>'required',
+		]);
+		
 		Excel::import(new BulkLedgerImport, $request->file('file'));
 		return back();
 	}
